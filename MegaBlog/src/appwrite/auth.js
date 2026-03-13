@@ -55,6 +55,15 @@ export class Authservice{
             console.log("appweite logout error" , error);
         }
     }
+
+
+    async isAuthenticated() {        try {
+            await this.account.get();
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 }
 
 const authService = new AuthService();
