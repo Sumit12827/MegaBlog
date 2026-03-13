@@ -57,13 +57,7 @@ export class Authservice{
     }
 
 
-    async isAuthenticated() {        try {
-            await this.account.get();
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
+   
 }
 
 const authService = new AuthService();
