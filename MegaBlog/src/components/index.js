@@ -6,7 +6,13 @@ import LogoutBtn from "./Header/LogoutBtn";
 
 import RTE from "./RTE";
 
+import Signup from "./Signup"
 
+import Login from  "./Login";
+
+import Post from "./Post"
+
+import PostForm  from "./post-form/postForm";
 
 export default {
     Header,
@@ -14,5 +20,9 @@ export default {
     Container,
     Logo,
     LogoutBtn,
-    RTE
+    RTE,
+    Signup,
+    Login,
+    Post,
+    PostFrom
 }
