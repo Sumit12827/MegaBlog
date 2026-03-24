@@ -1,30 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import authService from "../appwrite/auth"
 import { Link , useNavigate }  from "react-router-dom";
-import login from "../store/authSlice";
+import { login } from "../store/authSlice";
 
 import {Button , Input , Logo} from "./index";
 import { useDispatch } from "react-redux";
-import {usefrom} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 function Signup() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {register , handleSubmit} = usefrom();
+    const [error, setError] = useState("");
+    const {register , handleSubmit} = useForm();
 
     const onSubmit = async (data) => {
         setError("");
         try {
            const userData =  await authService.createAccount(data);
            if(userData) {
-            const userData = await authService.getCurrentUser();
-            if(userData) dispatch(login(userData));
+            const currentUser = await authService.getCurrentUser();
+            if(currentUser) dispatch(login({ userData: currentUser }));
             navigate("/");
            }
-            dispatch(login());
-            navigate("/");
         } catch (error) {
-            console.log(error);
+            setError(error.message);
         }
     }
 
@@ -48,7 +47,7 @@ function Signup() {
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-                <form onSubmit={handleSubmit(create)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='space-y-5'>
                         <Input
                         label="Full Name: "

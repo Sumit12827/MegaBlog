@@ -1,16 +1,15 @@
-import React from "react";
-import { Container  , Logo, LogoutBtn} from "../index";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-//import { useNavigate} from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import {Container, Logo, LogoutBtn} from '../index'
+import { Link } from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 function Header() {
+  const authStatus = useSelector((state) => state.auth.status)
+  const navigate = useNavigate()
 
-    const authStatus = useSelector((state) => state.auth.status)
-    const navigate = useNavigate();
-
-    const navItems = [
-        {
+  const navItems = [
+    {
       name: 'Home',
       slug: "/",
       active: true
@@ -35,9 +34,11 @@ function Header() {
       slug: "/add-post",
       active: authStatus,
   },
-    ]
-    return (
-        <header className='py-3 shadow bg-gray-500'>
+  ]
+
+
+  return (
+    <header className='py-3 shadow bg-gray-500'>
       <Container>
         <nav className='flex'>
           <div className='mr-4'>
@@ -66,7 +67,7 @@ function Header() {
         </nav>
         </Container>
     </header>
-    )
+  )
 }
 
-export default Header;
+export default Header
