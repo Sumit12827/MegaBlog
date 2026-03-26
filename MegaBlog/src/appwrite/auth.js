@@ -1,34 +1,34 @@
 import conf from '../conf/conf.js';
-import {Client , Account , ID} from "appwrite";
+import { Client, Account, ID } from "appwrite";
 
 
-export class Authservice{
-    client  = new Client();
+export class Authservice {
+    client = new Client();
     account;
 
-    constructor(){
+    constructor() {
         if (conf.appWriteUrl && conf.appWriteProjectId) {
             this.client
-            .setEndpoint(conf.appWriteUrl)
-            .setProject(conf.appWriteProjectId);
+                .setEndpoint(conf.appWriteUrl)
+                .setProject(conf.appWriteProjectId);
         }
         this.account = new Account(this.client);
 
     }
 
-    async createAccount({email , password , name}) {
-        const userAccount = await this.account.create(ID.unique() , email , password , name);
-        if(userAccount){
+    async createAccount({ email, password, name }) {
+        const userAccount = await this.account.create(ID.unique(), email, password, name);
+        if (userAccount) {
             //calls an another method
-            return this.login({email , password});
+            return this.login({ email, password });
 
         } else {
             return userAccount;
         }
     }
 
-    async login({email , password}) {
-        return await this.account.createSession(email,password);
+    async login({ email, password }) {
+        return await this.account.createEmailPasswordSession(email, password);
     }
 
     async getCurrentUser() {
@@ -36,7 +36,7 @@ export class Authservice{
             return await this.account.get();
 
         } catch (error) {
-            console.log("appweite get current user error" , error);
+            console.log("appwrite get current user error", error);
         }
 
         return null;
@@ -44,14 +44,14 @@ export class Authservice{
 
     async logout() {
         try {
-            await this.account.deleteSessions("current");
+            await this.account.deleteSession("current");
         } catch (error) {
-            console.log("appwrite logout error" , error);
+            console.log("appwrite logout error", error);
         }
     }
 
 
-   
+
 }
 
 const authService = new Authservice();
