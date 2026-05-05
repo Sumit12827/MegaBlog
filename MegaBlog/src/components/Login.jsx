@@ -10,33 +10,27 @@ import { useForm } from "react-hook-form";
 
 function Login() {
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
-
-    const {register , handleSubmit} = useForm();
-
-    const [error , setError] = useState("");
+    const { register, handleSubmit } = useForm();
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const login = async (data) => {
         setError("");
+        setLoading(true);
         try {
-                     const session = await authService.login(data);
-                     if (session) {
-                        const userData = await authService.getCurrentUser();
-                        if (userData) dispatch(authLogin({ userData }));
-            navigate("/")
-
-            
-           }
-
-
-
-
+            const session = await authService.login(data);
+            if (session) {
+                const userData = await authService.getCurrentUser();
+                if (userData) dispatch(authLogin({ userData }));
+                navigate("/");
+            }
         } catch (error) {
             setError(error.message);
+        } finally {
+            setLoading(false);
         }
-
-    }
+    };
 
     return (
         <div className="flex items-center justify-center w-full py-12">
@@ -67,7 +61,7 @@ function Login() {
                             placeholder="Enter your email"
                             type="email"
                             {...register("email", {
-                                required: true,
+                                required: "Email is required",
                                 validate: {
                                     matchPatern: (value) => 
                                         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Please enter a valid email address"
@@ -79,20 +73,23 @@ function Login() {
                             label="Password"
                             placeholder="Enter your password"
                             type="password"
-                            {...register("password", { required: true })}
+                            {...register("password", { 
+                                required: "Password is required" 
+                            })}
                         />
 
                         <Button
                             type="submit"
                             className="w-full shadow-lg shadow-indigo-200"
+                            disabled={loading}
                         >
-                            Sign in
+                            {loading ? "Signing in..." : "Sign in"}
                         </Button>
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
 export default Login;
