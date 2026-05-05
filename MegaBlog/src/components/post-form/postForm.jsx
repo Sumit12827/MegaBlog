@@ -96,59 +96,68 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
-                <Input
-                    label="Title :"
-                    placeholder="Title"
-                    className="mb-4"
-                    {...register("title", { required: true })}
-                />
-                {errors.title && <p className="text-red-500 text-sm mb-4">Title is required</p>}
-                <Input
-                    label="Slug :"
-                    placeholder="Slug"
-                    className="mb-4"
-                    {...register("slug", { required: true })}
-                    onInput={(e) => {
-                        setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                    }}
-                />
-                {errors.slug && <p className="text-red-500 text-sm mb-4">Slug is required</p>}
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap -mx-2">
+            <div className="w-full lg:w-2/3 px-2 mb-4 lg:mb-0">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <Input
+                        label="Title"
+                        placeholder="Enter post title"
+                        className="mb-6"
+                        {...register("title", { required: true })}
+                    />
+                    {errors.title && <p className="text-red-500 text-xs -mt-4 mb-4 font-medium italic">Title is required</p>}
+                    
+                    <Input
+                        label="Slug"
+                        placeholder="post-url-slug"
+                        className="mb-6"
+                        {...register("slug", { required: true })}
+                        onInput={(e) => {
+                            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+                        }}
+                    />
+                    {errors.slug && <p className="text-red-500 text-xs -mt-4 mb-4 font-medium italic">Slug is required</p>}
+                    
+                    <RTE label="Content" name="content" control={control} defaultValue={getValues("content")} />
+                </div>
             </div>
-            <div className="w-1/3 px-2">
-                <Input
-                    label="Featured Image :"
-                    type="file"
-                    className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
-                />
-                {errors.image && <p className="text-red-500 text-sm mb-4">Image is required</p>}
-                {post && (
-                    <div className="w-full mb-4">
-                        <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
-                            alt={post.title}
-                            className="rounded-lg"
-                        />
-                    </div>
-                )}
-                <Select
-                    options={["active", "inactive"]}
-                    label="Status"
-                    className="mb-4"
-                    {...register("status", { required: true })}
-                />
-                <Button 
-                    type="submit" 
-                    bgColor={post ? "bg-green-500" : undefined} 
-                    className="w-full"
-                    disabled={submitting}
-                >
-                    {submitting ? "Submitting..." : (post ? "Update" : "Submit")}
-                </Button>
+            <div className="w-full lg:w-1/3 px-2">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-24">
+                    <Input
+                        label="Featured Image"
+                        type="file"
+                        className="mb-6"
+                        accept="image/png, image/jpg, image/jpeg, image/gif"
+                        {...register("image", { required: !post })}
+                    />
+                    {errors.image && <p className="text-red-500 text-xs -mt-4 mb-4 font-medium italic">Image is required</p>}
+                    
+                    {post && (
+                        <div className="w-full mb-6 rounded-xl overflow-hidden border border-slate-100 shadow-sm">
+                            <img
+                                src={appwriteService.getFilePreview(post.featuredImage)}
+                                alt={post.title}
+                                className="w-full object-cover"
+                            />
+                        </div>
+                    )}
+                    
+                    <Select
+                        options={["active", "inactive"]}
+                        label="Status"
+                        className="mb-6"
+                        {...register("status", { required: true })}
+                    />
+                    
+                    <Button 
+                        type="submit" 
+                        bgColor={post ? "bg-emerald-600 hover:bg-emerald-700" : "bg-indigo-600 hover:bg-indigo-700"} 
+                        className="w-full shadow-lg shadow-indigo-100 mt-2"
+                        disabled={submitting}
+                    >
+                        {submitting ? "Saving..." : (post ? "Update Post" : "Publish Post")}
+                    </Button>
+                </div>
             </div>
         </form>
     );
