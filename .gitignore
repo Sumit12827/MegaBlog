@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+MegaBlog/node_modules/
+
+# Production
+dist/
+MegaBlog/dist/
+
+# OS Files
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+MegaBlog/.env
+MegaBlog/.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
