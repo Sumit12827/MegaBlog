@@ -1,4 +1,4 @@
-# 🚀 MegaBlog - A Full-Stack Blogging Platform
+# 🚀 MegaBlog - A Full-Stack Blogging Platform 
 
 MegaBlog is a modern, high-performance blogging application built with **React**, **Redux Toolkit**, and **Appwrite**. It features a clean, responsive UI and a robust backend integration for authentication, database management, and file storage.
 
